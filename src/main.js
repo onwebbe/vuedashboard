@@ -19,10 +19,13 @@ new Vue({
     'tilesConfig': {
       'test1': ''
     },
-    'tilesLayout': [{
-      'tileName': 'test',
-      'tileColumns': 3,
-      'tileTitle': 'mytest'
-    }]
+    'tilesLayout': [[{
+      'tileName': 'DashBoardUTNewCodeCovTile',
+      'titleRowSpan': 2,
+      'tileTitle': 'New Code UT Coverage'
+    }],
+    [],
+    [],
+    []]
   }
 }).$mount('#app')

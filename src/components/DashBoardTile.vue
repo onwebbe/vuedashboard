@@ -1,38 +1,45 @@
 <template>
-  <div class="dashBoardTile">
+  <div class="dashBoardTile fontColorNormal tileBackGroundColorNormal">
     <div class="dashBoardTileTitle">
       title
     </div>
     <div class="dashBoardTileContent">
-      content
+      <NewCodeCoverageTile></NewCodeCoverageTile>
     </div>
   </div>
 </template>
 
 <script>
+import NewCodeCoverageTile from './DashBoardUTNewCodeCovTile'
 export default {
   name: 'DashBoardTile',
   props: {
-    msg: String
+    dashboardTileConfigData: Object
+  },
+  components: {
+    NewCodeCoverageTile
+  },
+  created() {
+    console.log(this.dashboardTileConfigData);
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" type="text/css">
-@import '../themeing/black';
+@import '../themeing/themings';
 @import '../../node_modules/bulma';
 .dashBoardTile {
-  background-color: $tileBackgroundColor-normal;
   margin: 5px;
-  height: 200px;
+  height: 600px;
   .dashBoardTileTitle {
     height: 30px;
-    border-bottom: 1px solid $borderColor-normal;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
     font-size: 1.2rem;
     text-align: center;
+    margin-bottom: 10px;
   }
-
   .dashBoardTileContent {
     padding-top: 5px;
   }

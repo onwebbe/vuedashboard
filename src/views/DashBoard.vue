@@ -1,8 +1,8 @@
 <template>
-  <div class="dashboardMain">
-    <div class="dashBoardInner columns is-multiline">
-      <div class="dashBoardTileColumn column" v-bind:class="[columnClassName]" v-bind:key="item" v-for="(item) in this.$root.screenConfig.totalColumns">
-        <DashBoardTile></DashBoardTile>
+  <div class="dashboardMain backgroundColorNormal fontColorNormal">
+    <div class="dashBoardInner borderColorNormal columns is-multiline">
+      <div class="dashBoardTileColumn column" v-bind:class="[columnClassName]" v-bind:key="item" v-for="(item, index) in this.$root.screenConfig.totalColumns">
+        <DashBoardTile :dashboardTileConfigData="dashBoardTilesConfig[index][0]"></DashBoardTile>
       </div>
     </div>
   </div>
@@ -20,38 +20,36 @@ export default {
   },
   data () {
     return {
-      columnClassName: ''
+      columnClassName: '',
+      dashBoardTilesConfig: this.$root.tilesLayout
     }
   },
   created () {
     let blockSize = 12 / this.$root.screenConfig.totalColumns;
     if (12 % this.$root.screenConfig.totalColumns != 0) {
       blockSize = Math.floor(12 / this.$root.screenConfig.totalColumns);
-      
     }
     this.columnClassName = 'is-' + blockSize;
-    // alert(($('body').height() - $('.dashBoardHeader').height() - 20 - 20) / 3);
-    // alert(this.$root.screenConfig.totalRows);
   },
   mounted () {
+    alert($(this.$el).height());
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" type="text/css">
-@import '../themeing/black';
+@import '../themeing/themings';
 @import '../../node_modules/bulma';
 .dashboardMain {
-  background-color: $backgroundColor-normal;
   width: calc( 100% - 20px );
   height: calc( 100% - 20px );
-  color: $fontColor-normal;
   padding: 10px;
 
   > div.dashBoardInner {
     position: relative;
-    border: 1px solid $borderColor-normal;
+    border-width: 1px;
+    border-style: solid;
     width: calc( 100% - 2px );
     height: calc( 100% - 2px );
     margin: 0px;
@@ -62,21 +60,6 @@ export default {
     align-self: flex-start;
     height: calc(100% - 10px);
     padding: 0px;
-    .dashBoardTile {
-      background-color: $tileBackgroundColor-normal;
-      margin: 5px;
-      height: 200px;
-      .dashBoardTileTitle {
-        height: 30px;
-        border-bottom: 1px solid $borderColor-normal;
-        font-size: 1.2rem;
-        text-align: center;
-      }
-
-      .dashBoardTileContent {
-        padding-top: 5px;
-      }
-    }
   }
 }
 </style>

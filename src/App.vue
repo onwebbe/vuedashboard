@@ -18,17 +18,18 @@ export default {
     // document.getElementById('app').style.height = windowHeight + 'px';
   },
   mounted () {
+    $('body').addClass('backgroundColorNormal');
+    $('body').attr('themeStyle', 'black');
     // let windowHeight = window.outerHeight;
     // document.getElementById('app').style.height = windowHeight + 'px';
   }
 }
 </script>
 <style lang="scss" type="text/css">
-@import './themeing/black';
+@import './themeing/themings';
 body {
   border: 0px !important;
   margin: 0px !important;
-  background-color: $backgroundColor-normal;
   overflow: hidden;
   height: 100vh;
 }
