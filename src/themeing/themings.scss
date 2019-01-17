@@ -1,14 +1,31 @@
 [themeStyle="black"] {
-  .warningColor {
+  .backgroundColor.warningColor {
+    background-color: rgb(247, 226, 132);
+    color: #5f5a10;
+  }
+  .backgroundColor.okColor {
+    background-color: rgb(97, 201, 97);
+    color: #0d4612;
+  }
+  .backgroundColor.errorColor {
+    background-color: rgb(235, 152, 103);
+    color: #611129;
+  }
+  .backgroundColor.infoColor {
+    background-color: rgb(123, 188, 231);
+    color: #152479;
+  }
+
+  .fontColor.warningColor {
     color: rgb(247, 226, 132);
   }
-  .okColor {
+  .fontColor.okColor {
     color: rgb(97, 201, 97);
   }
-  .errorColor {
+  .fontColor.errorColor {
     color: rgb(235, 152, 103);
   }
-  .infoColor {
+  .fontColor.infoColor {
     color: rgb(123, 188, 231);
   }
   .fontColorNormal {
@@ -18,7 +35,7 @@
     background-color: black;
   }
   .tileBackGroundColorNormal {
-    background-color: rgba(102, 65, 65, 0.39);
+    background-color: rgba(255, 255, 255, 0.18);
   }
   .tileBorderColor {
     border-color: white;

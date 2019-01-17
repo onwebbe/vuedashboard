@@ -1,25 +1,26 @@
 {
-  "env": {
-    "browser": true
+  root: true,
+  env: {
+    node: true,
+    browser: true
   },
-  "plugins": [
-    "promise",
-    "standard"
-  ],
   "globals": {
     "document": false,
     "navigator": false,
     "window": false,
     "jQuery": false,
-    "sap": false,
-    "MSGS": false,
-    "QUnit": false,
-    "MentoringMatchDataModel": false
+    "$": false
   },
-  "extends": [
+  'extends': [
+    'plugin:vue/essential',
+    '@vue/standard',
     "eslint:recommended",
-    "google"],
+    "google"
+  ],
   "rules": {
+    "semi": 0,
+    "semi-spacing": ["error", {"before": false, "after": true}],
+    "prefer-const": 0,
     "indent": [ "error", 2 ],
     "max-len": [1, {
       "code": 200,
@@ -61,5 +62,8 @@
     "space-before-function-paren": 0,
     "dot-notation": 1,
     "no-multi-spaces": "error"
+  },
+  parserOptions: {
+    parser: 'babel-eslint'
   }
 }

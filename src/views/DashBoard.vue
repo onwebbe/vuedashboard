@@ -1,8 +1,8 @@
 <template>
   <div class="dashboardMain backgroundColorNormal fontColorNormal">
     <div class="dashBoardInner borderColorNormal columns is-multiline">
-      <div class="dashBoardTileColumn column" v-bind:class="[columnClassName]" v-bind:key="item" v-for="(item, index) in this.$root.screenConfig.totalColumns">
-        <DashBoardTile :dashboardTileConfigData="dashBoardTilesConfig[index][0]"></DashBoardTile>
+      <div class="dashBoardTileColumn column" v-bind:class="[columnClassName]" v-bind:key="item" v-for="(item, index) in this.$root.screenConfig.screens[0].totalColumns">
+        <DashBoardTile v-for="(tileItem, tileIdx) in dashBoardTilesConfig[index]" :screenConfig="screenConfig" :dashboardTileConfigData="tileItem" :dashboardHeight="dashboardHeight"></DashBoardTile>
       </div>
     </div>
   </div>
@@ -21,18 +21,20 @@ export default {
   data () {
     return {
       columnClassName: '',
-      dashBoardTilesConfig: this.$root.tilesLayout
+      dashBoardTilesConfig: this.$root.screens[0].tilesLayout,
+      screenConfig: this.$root.screenConfig.screens[0],
+      dashboardHeight: 0
     }
   },
   created () {
     let blockSize = 12 / this.$root.screenConfig.totalColumns;
-    if (12 % this.$root.screenConfig.totalColumns != 0) {
-      blockSize = Math.floor(12 / this.$root.screenConfig.totalColumns);
+    if (12 % this.$root.screenConfig.screens[0].totalColumns != 0) {
+      blockSize = Math.floor(12 / this.$root.screenConfig.screens[0].totalColumns);
     }
     this.columnClassName = 'is-' + blockSize;
   },
   mounted () {
-    alert($(this.$el).height());
+    this.dashboardHeight = $(window).height() - $('.dashBoardHeader').height() - 20;
   }
 }
 </script>
@@ -44,6 +46,7 @@ export default {
 .dashboardMain {
   width: calc( 100% - 20px );
   height: calc( 100% - 20px );
+  max-height: calc( 100% - 20px );
   padding: 10px;
 
   > div.dashBoardInner {

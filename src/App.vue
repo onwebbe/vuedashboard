@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
+  <div id="app" class="backgroundColorNormal fontColorNormal">
     <div class="dashBoardHeader">
-      Header Title
+      {{this.$root.headText}}
     </div>
     <div class="dashBoardContainer">
       <router-view/>
@@ -39,7 +39,11 @@ body {
   display: flex;
   flex-direction: column;
   > .dashBoardHeader {
-    height: 50px;
+    height: 35px;
+    min-height: 35px;
+    line-height: 45px;
+    font-size: 1.2rem;
+    text-align: center;
   }
 
   > .dashBoardContainer {
