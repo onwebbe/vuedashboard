@@ -32,10 +32,21 @@ export default {
           type: 'value'
         },
         series: [{
-          data: [],
-          type: 'line',
-          color: 'yellow'
-        }]
+            data: [],
+            type: 'line'
+        }],
+        legend: {
+          show: false
+        },
+        title: {
+          backgroundColor: 'green',
+          show: false,
+          text: 'title'
+        },
+        grid: {
+          y: 10,
+          y2: 30
+        }
       },
       newCodeCoverageData: [{
         date: '2019-01-10',
@@ -79,7 +90,7 @@ export default {
       let tileHeight = $(this.$el).parent().parent().height();
       let tileTitleHeight = $(this.$el).parent().parent().find('.dashBoardTileTitle').outerHeight();
       this.chart = echarts.init(this.$refs.coverageChart, this.echartThemeing, {
-        renderer: 'svg',
+        renderer: 'canvas',
         height: (tileHeight - tileTitleHeight - 65) + 'px'
       });
       // 把配置和数据放这里
