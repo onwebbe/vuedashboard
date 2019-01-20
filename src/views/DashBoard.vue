@@ -13,7 +13,7 @@ import DashBoardTile from '../components/DashBoardTile'
 export default {
   name: 'DashBoard',
   props: {
-    msg: String
+    dashBoardConfig: Object
   },
   components: {
     DashBoardTile
@@ -27,14 +27,19 @@ export default {
     }
   },
   created () {
-    let blockSize = 12 / this.$root.screenConfig.totalColumns;
-    if (12 % this.$root.screenConfig.screens[0].totalColumns != 0) {
-      blockSize = Math.floor(12 / this.$root.screenConfig.screens[0].totalColumns);
-    }
-    this.columnClassName = 'is-' + blockSize;
+    this.columnClassName = 'is-' + this.calculateColumnBlockSize();
   },
   mounted () {
     this.dashboardHeight = $(window).height() - $('.dashBoardHeader').height() - 20;
+  },
+  methods: {
+    calculateColumnBlockSize() {
+      let blockSize = 12 / this.$root.screenConfig.totalColumns;
+      if (12 % this.$root.screenConfig.screens[0].totalColumns != 0) {
+        blockSize = Math.floor(12 / this.$root.screenConfig.screens[0].totalColumns);
+      }
+      return blockSize;
+    }
   }
 }
 </script>

@@ -2,8 +2,8 @@
   <div class="newCodeCovTileContent">
     <div class="todayCoverage" :class="todayCoverageColorClass">
       Today<span>({{newCodeCoverageData[newCodeCoverageData.length - 1].date}})</span> Coverage: <span style='font-weight: bold;'>75%</span>
-      <div style="display:inline-block; width: 20px; height:20px;text-align: center;font-size: 1.5rem;" class="fa fa-angle-up"/>
-      <div style="display:inline-block; width: 20px; height:20px;text-align: center;font-size: 1.5rem;" class="fa fa-angle-down"/>
+      <div style="display:inline-block; text-align:right;width: 20px; height:20px;text-align: center;font-size: 1.5rem;font-weight: bold;" class="fa fa-thumbs-up" :class="trendArrowClasses"/>
+      <!--div style="display:inline-block; width: 20px; height:20px;text-align: center;font-size: 1.5rem;" class="fa fa-angle-down"/-->
     </div>
     <div>
       <div class="newCodeCoverage" ref="coverageChart">
@@ -23,46 +23,75 @@ export default {
     return {
       todayCoverageColorClass: ['okColor', 'backgroundColor'],
       echartThemeing: this.$root.screenConfig.echartTheme,
+      trendArrowClasses: ['fontColor', 'okDarkColor'],
       echartOption: {
         xAxis: {
           type: 'category',
-          data: []
+          data: [],
+          axisLabel: {
+            show: true,
+            interval: 0,
+            formatter: function (value, index) {
+              var axisYear = parseInt(value.substring(0, 4));
+              var todayYear = new Date().getFullYear();
+              if (axisYear === todayYear) {
+                return value.substring(5)
+              } else {
+                return value;
+              }
+            }
+          },
         },
         yAxis: {
-          type: 'value'
+          type: 'value',
+          min: function(value) {
+            if (value.min - 10 > 0) {
+              return value.min - 10;
+            } else {
+              return 0;
+            }
+          },
+          axisLabel: {
+            show: true,
+            interval: 0,
+            formatter: '{value}%'
+          },
+          minInterval: 5,
+          interval: 5
         },
         series: [{
             data: [],
-            type: 'line'
+            type: 'line',
+            color: 'yellow',
+            smooth: true
         }],
         legend: {
           show: false
         },
         title: {
-          backgroundColor: 'green',
-          show: false,
-          text: 'title'
+          show: false
         },
         grid: {
-          y: 10,
-          y2: 30
+          left: 50,
+          top: 10,
+          bottom: 30
         }
       },
       newCodeCoverageData: [{
         date: '2019-01-10',
-        coverage: 0.75
+        coverage: 75
       }, {
         date: '2019-01-11',
-        coverage: 0.6
+        coverage: 60
       }, {
         date: '2019-01-12',
-        coverage: 0.5
+        coverage: 50
       }, {
         date: '2019-01-13',
-        coverage: 0.55
+        coverage: 55
       }, {
         date: '2019-01-14',
-        coverage: 0.65
+        coverage: 65
       }]
     }
   },
@@ -90,7 +119,7 @@ export default {
       let tileHeight = $(this.$el).parent().parent().height();
       let tileTitleHeight = $(this.$el).parent().parent().find('.dashBoardTileTitle').outerHeight();
       this.chart = echarts.init(this.$refs.coverageChart, this.echartThemeing, {
-        renderer: 'canvas',
+        renderer: 'svg',
         height: (tileHeight - tileTitleHeight - 65) + 'px'
       });
       // 把配置和数据放这里
