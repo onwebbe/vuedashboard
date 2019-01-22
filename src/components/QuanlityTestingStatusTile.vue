@@ -63,7 +63,8 @@ export default {
             name:'QACAND Failed',
             type:'bar',
             stack: 'QACAND',
-            data:[10, 20, 15]
+            data:[10, 20, 15],
+            color: 'rgb(251, 114, 147)'
           },{
             name:'QAAUTOCAND Success',
             type:'bar',
