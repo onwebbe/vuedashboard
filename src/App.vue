@@ -19,7 +19,7 @@ export default {
   },
   mounted () {
     $('body').addClass('backgroundColorNormal');
-    $('body').attr('themeStyle', 'black');
+    $('body').attr('themeStyle', 'fiori');
     // let windowHeight = window.outerHeight;
     // document.getElementById('app').style.height = windowHeight + 'px';
   }

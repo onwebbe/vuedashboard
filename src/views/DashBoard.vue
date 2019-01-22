@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboardMain backgroundColorNormal fontColorNormal">
+  <div class="dashboardMain backgroundColorDashBoard fontColorNormal">
     <div class="dashBoardInner borderColorNormal columns is-multiline">
       <div class="dashBoardTileColumn column" v-bind:class="[columnClassName]" v-bind:key="item" v-for="(item, index) in this.$root.screenConfig.screens[0].totalColumns">
         <DashBoardTile  v-bind:key="tileIdx" v-for="(tileItem, tileIdx) in dashBoardTilesConfig[index]" :screenConfig="screenConfig" :dashboardTileConfigData="tileItem" :dashboardHeight="dashboardHeight"></DashBoardTile>

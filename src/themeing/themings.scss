@@ -40,10 +40,90 @@
   .backgroundColorNormal {
     background-color: black;
   }
+  .backgroundColorDashBoard {
+    background-color: black;
+  }
   .tileBackGroundColorNormal {
     background-color: rgba(255, 255, 255, 0.18);
+  }
+  .tileBackGroundColorTitle {
+    background-color: #eff4f9;
+  }
+
+  .borderColorNormal {
+    border-color: #EFF4F9;
   }
   .tileBorderColor {
     border-color: white;
   }
+}
+
+
+
+[themeStyle="fiori"] {
+  .backgroundColor.warningColor {
+    background-color: rgb(247, 226, 132);
+    color: #5f5a10;
+  }
+  .backgroundColor.okColor {
+    background-color: rgb(97, 201, 97);
+    color: #0d4612;
+  }
+  .backgroundColor.errorColor {
+    background-color: rgb(235, 152, 103);
+    color: #611129;
+  }
+  .backgroundColor.infoColor {
+    background-color: rgb(123, 188, 231);
+    color: #152479;
+  }
+
+  .fontColor.warningColor {
+    color: rgb(247, 226, 132);
+  }
+  .fontColor.okColor {
+    color: rgb(97, 201, 97);
+  }
+  .fontColor.okDarkColor {
+    color: rgb(0, 90, 0);
+  }
+  .fontColor.errorColor {
+    color: rgb(235, 152, 103);
+  }
+  .fontColor.errorDarkColor {
+    color: rgb(100, 40, 6);
+  }
+  .fontColor.infoColor {
+    color: rgb(123, 188, 231);
+  }
+  .fontColorNormal {
+    color: #333;
+  }
+
+  .backgroundColorNormal {
+    background-color: #3F5161;
+  }
+  .backgroundColorDashBoard {
+    background-color: white;
+  }
+  .tileBackGroundColorNormal {
+    background-color: white;
+  }
+  .tileBackGroundColorTitle {
+    background-color: #eff4f9;
+  }
+
+
+  .borderColorNormal {
+    border-color: #BFBFBF;
+  }
+  .fullBorderNormal {
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.15);
+  }
+  .tileBorderColor {
+    border-color: white;
+  }
+
+  border-radius: 0.125rem;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.15);
 }
