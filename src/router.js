@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import DashBoard from './views/DashBoard.vue'
+import DashBoard from './components/QuanlityTestingStatusTile.vue'
 
 Vue.use(Router)
 
@@ -10,7 +10,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'quanlityTestingStatusTile',
       component: DashBoard
     },
     {

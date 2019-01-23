@@ -4,14 +4,16 @@
       {{this.$root.headText}}
     </div>
     <div class="dashBoardContainer">
-      <router-view/>
+      <DashBoard />
     </div>
   </div>
 </template>
 <script>
+import DashBoard from './views/DashBoard';
 export default {
   name: 'home',
   components: {
+    DashBoard
   },
   created () {
     // let windowHeight = window.outerHeight;

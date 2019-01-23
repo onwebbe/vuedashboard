@@ -7,14 +7,16 @@
     </div>
     <div class="dashBoardTileContent">
       <!-- NewCodeCoverageTile ref="tileContent"></NewCodeCoverageTile -->
-      <QuanlityTestingStatusTile ref="tileContent"></QuanlityTestingStatusTile>
+      <DashBoardUTNewCodeCovTile ref="tileContent" v-if="allTiles.DashBoardUTNewCodeCovTile"></DashBoardUTNewCodeCovTile>
+      <QuanlityTestingStatusTile ref="tileContent" v-if="allTiles.QuanlityTestingStatusTile"></QuanlityTestingStatusTile>
     </div>
   </div>
 </template>
 
 <script>
-import NewCodeCoverageTile from './DashBoardUTNewCodeCovTile'
-import QuanlityTestingStatusTile from './QuanlityTestingStatusTile'
+import DashBoardUTNewCodeCovTile from './DashBoardUTNewCodeCovTile';
+import QuanlityTestingStatusTile from './QuanlityTestingStatusTile';
+
 export default {
   name: 'DashBoardTile',
   props: {
@@ -23,16 +25,27 @@ export default {
     dashboardHeight: Number
   },
   components: {
-    NewCodeCoverageTile,
+    DashBoardUTNewCodeCovTile,
     QuanlityTestingStatusTile
   },
   data() {
     return {
-      tileHeight: '100px'
+      tileHeight: '100px',
+      allTiles: {
+        DashBoardUTNewCodeCovTile: false,
+        QuanlityTestingStatusTile: false
+      }
     }
   },
-  mounted () {
-    // console.log(this.dashboardTileConfigData);
+  created () {
+    this.allTiles[this.dashboardTileConfigData.tileName] = true;
+  },
+  methods: {
+    registerComponent(templateName){
+      return import('./' + templateName + '.vue').then((component) => {
+        return Vue.component('TileContentComponent', component)
+      })
+    }
   },
   watch: {
     dashboardHeight: function (val) {

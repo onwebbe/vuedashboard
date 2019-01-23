@@ -1,9 +1,63 @@
 <template>
   <div class="quanlityTestingStatusTile">
-    <!--div class="todayCoverage" :class="todayCoverageColorClass">
-      <div style="display:inline-block; text-align:right;width: 20px; height:20px;text-align: center;font-size: 1.5rem;font-weight: bold;" class="fa fa-thumbs-up" :class="trendArrowClasses"/>
-      <div style="display:inline-block; width: 20px; height:20px;text-align: center;font-size: 1.5rem;" class="fa fa-angle-down"/>
-    </div -->
+    <div class="datatable">
+      <div class="columns">
+        <div class="column">
+          Environment
+        </div>
+        <div class="column">
+          Build -2
+        </div>
+        <div class="column">
+          Build -1
+        </div>
+        <div class="column">
+          Build latest
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          QACAND
+        </div>
+        <div class="column">
+          11
+        </div>
+        <div class="column">
+          12
+        </div>
+        <div class="column">
+          13
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          QAAUTOCAND
+        </div>
+        <div class="column">
+          23
+        </div>
+        <div class="column">
+          41
+        </div>
+        <div class="column">
+          31
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          Local
+        </div>
+        <div class="column">
+          99
+        </div>
+        <div class="column">
+          44
+        </div>
+        <div class="column">
+        66
+        </div>
+      </div>
+    </div>
     <div>
       <div class="qualityTestingStatus" ref="qualityTestingStatus">
       </div>
@@ -14,7 +68,7 @@
 <script>
 import echarts from 'echarts'
 export default {
-  name: 'quanlityTestingStatusTile',
+  name: 'QuanlityTestingStatusTile',
   props: {
     msg: String
   },
@@ -74,7 +128,8 @@ export default {
             name:'QAAUTOCAND Failed',
             type:'bar',
             stack: 'QAAUTPCAND',
-            data:[100, 200, 100]
+            data:[100, 200, 100],
+            color: 'rgb(251, 114, 147)'
           },{
             name:'Local Success',
             type:'bar',
@@ -84,7 +139,8 @@ export default {
             name:'Local Failed',
             type:'bar',
             stack: 'JEKINSLOCAL',
-            data:[220, 182, 191]
+            data:[220, 182, 191],
+            color: 'rgb(251, 114, 147)'
           },
         ]
       }
@@ -106,11 +162,11 @@ export default {
     initChart() {
       let tileHeight = $(this.$el).parent().parent().height();
       let tileTitleHeight = $(this.$el).parent().parent().find('.dashBoardTileTitle').outerHeight();
+      let titleTableHeight = $(this.$el).find('.datatable').outerHeight();
       this.chart = echarts.init(this.$refs.qualityTestingStatus, this.echartThemeing, {
         renderer: 'svg',
-        height: (tileHeight - tileTitleHeight  - 20) + 'px'
+        height: (tileHeight - tileTitleHeight - titleTableHeight) + 'px'
       });
-      // 把配置和数据放这里
       this.chart.setOption(this.echartOption);
     }
   }
@@ -123,5 +179,11 @@ export default {
 @import '../../node_modules/bulma';
 $fa-font-path: '../../node_modules/font-awesome/fonts/';
 @import '../../node_modules/font-awesome/scss/font-awesome';
-
+.column {
+  padding: 5px 8px;
+}
+.datatable {
+  padding: 15px 20px;
+  padding-top: 0px;
+}
 </style>
