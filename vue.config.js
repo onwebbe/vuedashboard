@@ -7,7 +7,7 @@ module.exports = {
     port: 9000,
     https: false, // https:{type:Boolean}
     open: true,
-    proxy: 'http://localhost:3000'
+    proxy: 'http://localhost:5500'
   },
   configureWebpack: {
     plugins: [
