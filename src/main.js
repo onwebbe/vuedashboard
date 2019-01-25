@@ -40,7 +40,7 @@ import DashBoardUTNewCodeCovTile from './components/DashBoardUTNewCodeCovTile';
 import QuanlityTestingStatusTile from './components/QuanlityTestingStatusTile';
 Vue.component('DashBoardUTNewCodeCovTile', DashBoardUTNewCodeCovTile);
 Vue.component('QuanlityTestingStatusTile', QuanlityTestingStatusTile);
-axios.get('/vuedashboard/getDashBoardConfig').then((response) => {
+axios.get('/api/vuedashboard/getDashBoardConfig').then((response) => {
   var responseData = response.data;
   if (responseData.success === true) {
     var configData = responseData.configData;
@@ -51,3 +51,5 @@ axios.get('/vuedashboard/getDashBoardConfig').then((response) => {
     }).$mount('#app');
   }
 });
+// http://10.129.126.28:5500/testngresult/
+// http://10.129.126.28:5500/api/vuedashboard/

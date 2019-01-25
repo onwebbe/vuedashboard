@@ -168,6 +168,21 @@ export default {
         height: (tileHeight - tileTitleHeight - titleTableHeight) + 'px'
       });
       this.chart.setOption(this.echartOption);
+    },
+    getJobData() {
+      let jobsData = {"cdp-hana-jdm2":[{"PASSED":35,"build-number":"72","FAILED":1},{"FAILED":3,"build-number":"71","PASSED":33},{"FAILED":36,"build-number":"70"}],"cdp-hana-jdm1":[{"FAILED":1,"build-number":"85","PASSED":69},{"FAILED":3,"build-number":"84","PASSED":67},{"FAILED":3,"build-number":"83","PASSED":67}]}
+    },
+    _processLegend(jobsData) {
+      let legendData = [];
+      for (let jobName in jobsData) {
+        if (jobsData[jobName] != null) {
+          let jobData = jobsData[jobName];
+          legendData.push(jobName + '-PASSED');
+          legendData.push(jobName + '-FAILED');
+        }
+        
+      }
+      this.echartOption.legend = legendData;
     }
   }
 }
