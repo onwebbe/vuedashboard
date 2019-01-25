@@ -6,16 +6,16 @@
       <div style="display:inline-block; width: 20px; height:20px;text-align: center;" class="fa fa-angle-double-left fontColor fontColorNormal"/>
     </div>
     <div class="dashBoardTileContent">
-      <!-- NewCodeCoverageTile ref="tileContent"></NewCodeCoverageTile -->
+      <!-- NewCodeCoverageTile ref="tileContent"></NewCodeCoverageTile >
       <DashBoardUTNewCodeCovTile ref="tileContent" v-if="allTiles.DashBoardUTNewCodeCovTile"></DashBoardUTNewCodeCovTile>
-      <QuanlityTestingStatusTile ref="tileContent" v-if="allTiles.QuanlityTestingStatusTile"></QuanlityTestingStatusTile>
+      <QuanlityTestingStatusTile ref="tileContent" v-if="allTiles.QuanlityTestingStatusTile"></QuanlityTestingStatusTile  -->
+      <component ref="tileContent" :is="this.dashboardTileConfigData.tileName"/>
     </div>
   </div>
 </template>
 
 <script>
-import DashBoardUTNewCodeCovTile from './DashBoardUTNewCodeCovTile';
-import QuanlityTestingStatusTile from './QuanlityTestingStatusTile';
+
 
 export default {
   name: 'DashBoardTile',
@@ -25,20 +25,17 @@ export default {
     dashboardHeight: Number
   },
   components: {
-    DashBoardUTNewCodeCovTile,
-    QuanlityTestingStatusTile
+    // TileContent: function () {
+    //   import('@/components/' + this.dashboardTileConfigData.tileName + '.vue');
+    // }
   },
   data() {
     return {
-      tileHeight: '100px',
-      allTiles: {
-        DashBoardUTNewCodeCovTile: false,
-        QuanlityTestingStatusTile: false
-      }
+      tileHeight: '100px'
     }
   },
   created () {
-    this.allTiles[this.dashboardTileConfigData.tileName] = true;
+    console.log(this.$children);
   },
   methods: {
     registerComponent(templateName){
