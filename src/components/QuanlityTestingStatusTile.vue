@@ -1,62 +1,6 @@
 <template>
   <div class="quanlityTestingStatusTile">
     <div class="datatable">
-      <div class="columns">
-        <div class="column">
-          Environment
-        </div>
-        <div class="column">
-          Build -2
-        </div>
-        <div class="column">
-          Build -1
-        </div>
-        <div class="column">
-          Build latest
-        </div>
-      </div>
-      <div class="columns">
-        <div class="column">
-          QACAND
-        </div>
-        <div class="column">
-          11
-        </div>
-        <div class="column">
-          12
-        </div>
-        <div class="column">
-          13
-        </div>
-      </div>
-      <div class="columns">
-        <div class="column">
-          QAAUTOCAND
-        </div>
-        <div class="column">
-          23
-        </div>
-        <div class="column">
-          41
-        </div>
-        <div class="column">
-          31
-        </div>
-      </div>
-      <div class="columns">
-        <div class="column">
-          Local
-        </div>
-        <div class="column">
-          99
-        </div>
-        <div class="column">
-          44
-        </div>
-        <div class="column">
-        66
-        </div>
-      </div>
     </div>
     <div>
       <div class="qualityTestingStatus" ref="qualityTestingStatus">
@@ -165,12 +109,28 @@ export default {
       let titleTableHeight = $(this.$el).find('.datatable').outerHeight();
       this.chart = echarts.init(this.$refs.qualityTestingStatus, this.echartThemeing, {
         renderer: 'svg',
-        height: (tileHeight - tileTitleHeight - titleTableHeight) + 'px'
+        height: (tileHeight - tileTitleHeight - titleTableHeight - 15) + 'px'
       });
+      this.getJobData();
       this.chart.setOption(this.echartOption);
     },
     getJobData() {
-      let jobsData = {"cdp-hana-jdm2":[{"PASSED":35,"build-number":"72","FAILED":1},{"FAILED":3,"build-number":"71","PASSED":33},{"FAILED":36,"build-number":"70"}],"cdp-hana-jdm1":[{"FAILED":1,"build-number":"85","PASSED":69},{"FAILED":3,"build-number":"84","PASSED":67},{"FAILED":3,"build-number":"83","PASSED":67}]}
+      let jobsData = { 'cdp-hana-jdm2':
+   [ { PASSED: 35, buildNumber: 'latest-2', FAILED: 1 },
+     { PASSED: 37, buildNumber: 'latest-1', FAILED: 0 },
+     { FAILED: 1, buildNumber: 'latest', PASSED: 36 } ],
+  'cdp-hana-jdm1':
+   [ { FAILED: 3, buildNumber: 'latest-2', PASSED: 67 },
+     { FAILED: 1, buildNumber: 'latest-1', PASSED: 69 },
+     { FAILED: 1, buildNumber: 'latest', PASSED: 69 } ] };
+      this.processJobData(jobsData);
+      return;
+    },
+    processJobData(jobData) {
+      // this._processLegend(jobData);
+      this._processXAxis(jobData);
+      this._processSeries(jobData);
+      console.log(this.echartOption);
     },
     _processLegend(jobsData) {
       let legendData = [];
@@ -180,9 +140,154 @@ export default {
           legendData.push(jobName + '-PASSED');
           legendData.push(jobName + '-FAILED');
         }
-        
       }
-      this.echartOption.legend = legendData;
+      this.echartOption.legend.data = legendData;
+    },
+    _processXAxis(jobsData) {
+      let xaxisData = [];
+      for (let jobName in jobsData) {
+        if (jobsData[jobName] != null) {
+          let dataItem = {
+            value: jobName,
+            width: 5
+          }
+          xaxisData.push(dataItem);
+        }
+      }
+      this.echartOption.xAxis = [{}];
+      this.echartOption.xAxis[0].data = xaxisData;
+    },
+    _formatToBaseOnBuild(jobsData) {
+      let buildInformations = {};
+      for (let jobName in jobsData) {
+        let jobData = jobsData[jobName];
+        if (jobData != null) {
+          for (let i = 0; i < jobData.length; i++) {
+            let jobBuildInfo = jobData[i];
+            let buildNumber = jobBuildInfo['buildNumber'];
+            let buildPassCount = jobBuildInfo.PASSED;
+            let buildFailCount = jobBuildInfo.FAILED;
+            let buildInfo = {
+              'buildNumber': buildNumber,
+              'passCount': buildPassCount,
+              'failCount': -buildFailCount,
+              'jobName': jobName
+            }
+            if (buildInformations[buildNumber] == null) {
+              buildInformations[buildNumber] = [buildInfo];
+            } else {
+              buildInformations[buildNumber].push(buildInfo);
+            }
+          }
+        }
+      }
+      return buildInformations;
+    },
+    _processSeries(jobsData) {
+      let seriesData = [];
+      let jobsDataList = [];
+      let jobInfoMap = {};
+      var seriesLabel = {
+        normal: {
+          show: true,
+          textBorderColor: '#333',
+          textBorderWidth: 2,
+          formatter: function (item) {
+            if ( item.data > 0 ) {
+              return item.data;
+            } else if ( item.data < 0 ){
+              return (-item.data);
+            } else {
+              return '';
+            }
+          }
+        }
+      }
+      for (let jobName in jobsData) {
+        if ( jobsData[jobName] != null ) {
+          let buildList = jobsData[jobName];
+          for (let i = 0; i < buildList.length; i++) {
+            let buildData = buildList[i];
+            let buildNumber = buildData.buildNumber;
+            let passCount = buildData.PASSED;
+            let failCount = -buildData.FAILED;
+            let passKey = buildNumber + '-PASSED';
+            if (jobInfoMap[passKey] == null) {
+              let seriesItemPass = {
+                name: buildNumber + '-PASSED',
+                type: 'bar',
+                stack: jobName + buildNumber,
+                data: [passCount],
+                label: seriesLabel
+              }
+              jobInfoMap[passKey] = seriesItemPass;
+            } else {
+              jobInfoMap[passKey].data.push(passCount);
+            }
+            let failKey = buildNumber + '-FAILED';
+            if (jobInfoMap[failKey] == null) {
+              let seriesItemFail = {
+                name: buildNumber + '-FAILED',
+                type: 'bar',
+                stack: jobName + buildNumber,
+                data: [failCount],
+                color: 'rgb(251, 114, 147)',
+                label: seriesLabel
+              }
+              jobInfoMap[failKey] = seriesItemFail;
+            } else {
+              jobInfoMap[failKey].data.push(failCount);
+            }
+          }
+        }
+      }
+      let legendData = [];
+      for (let key in jobInfoMap) {
+        if (jobInfoMap[key] != null) {
+          seriesData.push(jobInfoMap[key]);
+          legendData.push(key);
+        }
+      }
+      this.echartOption.legend.data = legendData;
+      this.echartOption.series = seriesData;
+      // let buildsData = this._formatToBaseOnBuild(jobsData);
+      // let seriesData = [];
+      // let totalJobCount = 0;
+      // for ( let buildNumber in buildsData ) {
+      //   let buildsInfo = buildsData[buildNumber];
+      //   if ( buildsInfo != null ) {
+      //     let passCount = [];
+      //     let failCount = [];
+      //     let jobMap = {};
+
+      //     for (let i = 0; i < buildsInfo.length; i++) {
+      //       let buildInfo = buildsInfo[i];
+      //       let jobName = buildInfo.jobName;
+      //       if (jobMap[jobName] == null) {
+      //         jobMap[jobName + '-PASSED'] = [buildInfo.passCount];
+      //         jobMap[jobName + '-FAILED'] = [buildInfo.failCount];
+      //       } else {
+      //         jobMap[jobName + '-PASSED'].push(buildInfo.passCount);
+      //         jobMap[jobName + '-FAILED'].push(buildInfo.failCount);
+      //       }
+            
+      //     }
+      //     for ( let finalJobName in jobMap ) {
+      //       if (jobMap[finalJobName] != null) {
+      //         let jobName = finalJobName.substring(0, finalJobName.length - 7);
+      //         let seriesItem = {
+      //           name: finalJobName,
+      //           type: 'bar',
+      //           stack: jobName + buildNumber,
+      //           data: jobMap[finalJobName]
+      //         }
+      //         seriesData.push(seriesItem);
+      //       }
+      //     }
+          
+      //   }
+      // }
+      
     }
   }
 }
