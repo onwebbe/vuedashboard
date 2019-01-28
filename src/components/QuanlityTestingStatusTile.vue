@@ -85,7 +85,7 @@ export default {
             stack: 'JEKINSLOCAL',
             data:[220, 182, 191],
             color: 'rgb(251, 114, 147)'
-          },
+          }
         ]
       }
     }
@@ -112,25 +112,29 @@ export default {
         height: (tileHeight - tileTitleHeight - titleTableHeight - 15) + 'px'
       });
       this.getJobData();
-      this.chart.setOption(this.echartOption);
     },
     getJobData() {
-      let jobsData = { 'cdp-hana-jdm2':
-   [ { PASSED: 35, buildNumber: 'latest-2', FAILED: 1 },
-     { PASSED: 37, buildNumber: 'latest-1', FAILED: 0 },
-     { FAILED: 1, buildNumber: 'latest', PASSED: 36 } ],
-  'cdp-hana-jdm1':
-   [ { FAILED: 3, buildNumber: 'latest-2', PASSED: 67 },
-     { FAILED: 1, buildNumber: 'latest-1', PASSED: 69 },
-     { FAILED: 1, buildNumber: 'latest', PASSED: 69 } ] };
-      this.processJobData(jobsData);
+      let self = this;
+      this.$axios.get('/api/vuedashboard/fetchJenkinsJobSummary').then(response => {
+        let jobsData = response.data;
+        self.processJobData(jobsData);
+        self.chart.setOption(self.echartOption);
+      });
+  //     let jobsData = { 'cdp-hana-jdm2':
+  //  [ { PASSED: 35, buildNumber: 'latest-2', FAILED: 1 },
+  //    { PASSED: 37, buildNumber: 'latest-1', FAILED: 0 },
+  //    { FAILED: 1, buildNumber: 'latest', PASSED: 36 } ],
+  // 'cdp-hana-jdm1':
+  //  [ { FAILED: 3, buildNumber: 'latest-2', PASSED: 67 },
+  //    { FAILED: 1, buildNumber: 'latest-1', PASSED: 69 },
+  //    { FAILED: 1, buildNumber: 'latest', PASSED: 69 } ] };
       return;
     },
     processJobData(jobData) {
       // this._processLegend(jobData);
       this._processXAxis(jobData);
       this._processSeries(jobData);
-      console.log(this.echartOption);
+      // console.log(this.echartOption);
     },
     _processLegend(jobsData) {
       let legendData = [];
@@ -192,6 +196,7 @@ export default {
           show: true,
           textBorderColor: '#333',
           textBorderWidth: 2,
+          fontSize: 24,
           formatter: function (item) {
             if ( item.data > 0 ) {
               return item.data;
