@@ -1,10 +1,12 @@
 <template>
   <div class="dashboardMain backgroundColorDashBoard fontColorNormal">
-    <div class="dashBoardInner borderColorNormal columns is-multiline">
-      <div class="dashBoardTileColumn column" v-bind:class="[columnClassName]" v-bind:key="item" v-for="(item, index) in this.$root.screenConfig.screens[0].totalColumns">
-        <DashBoardTile  v-bind:key="tileIdx" v-for="(tileItem, tileIdx) in dashBoardTilesConfig[index]" :screenConfig="screenConfig" :dashboardTileConfigData="tileItem" :dashboardHeight="dashboardHeight"></DashBoardTile>
+    <transition name="fade">
+      <div class="dashBoardInner borderColorNormal columns is-multiline"  v-if="isShow">
+        <div class="dashBoardTileColumn column" v-bind:class="[columnClassName]" v-bind:key="item" v-for="(item, index) in this.$root.screenConfig.screens[this.pageindex].totalColumns">
+          <DashBoardTile v-bind:key="tileIdx" v-for="(tileItem, tileIdx) in dashBoardTilesConfig[index]" :screenConfig="screenConfig" :dashboardTileConfigData="tileItem" :dashboardHeight="dashboardHeight"></DashBoardTile>
+        </div>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -13,7 +15,8 @@ import DashBoardTile from '../components/DashBoardTile'
 export default {
   name: 'DashBoard',
   props: {
-    dashBoardConfig: Object
+    dashboardconfig: Object,
+    pageindex: Number
   },
   components: {
     DashBoardTile
@@ -21,9 +24,10 @@ export default {
   data () {
     return {
       columnClassName: '',
-      dashBoardTilesConfig: this.$root.screens[0].tilesLayout,
-      screenConfig: this.$root.screenConfig.screens[0],
-      dashboardHeight: 0
+      dashBoardTilesConfig: this.$root.screens[this.pageindex].tilesLayout,
+      screenConfig: this.$root.screenConfig.screens[this.pageindex],
+      dashboardHeight: 0,
+      isShow: true
     }
   },
   created () {
@@ -33,12 +37,30 @@ export default {
     this.dashboardHeight = $(window).height() - $('.dashBoardHeader').height() - 20;
   },
   methods: {
-    calculateColumnBlockSize() {
-      let blockSize = 12 / this.$root.screenConfig.totalColumns;
-      if (12 % this.$root.screenConfig.screens[0].totalColumns != 0) {
-        blockSize = Math.floor(12 / this.$root.screenConfig.screens[0].totalColumns);
+    calculateColumnBlockSize () {
+      let blockSize = 12 / this.$root.screenConfig.screens[this.pageindex].totalColumns;
+      if (12 % this.$root.screenConfig.screens[this.pageindex].totalColumns != 0) {
+        blockSize = Math.floor(12 / this.$root.screenConfig.screens[this.pageindex].totalColumns);
       }
       return blockSize;
+    },
+    switchScreen (topageindex) {
+      let self = this;
+      this.isShow = false;
+      setTimeout(function () {
+        self.isShow = true;
+        setTimeout(function () {
+          self.dashBoardTilesConfig = self.$root.screens[self.pageindex].tilesLayout;
+          self.screenConfig = self.$root.screenConfig.screens[self.pageindex];
+          self.columnClassName = 'is-' + self.calculateColumnBlockSize();
+          self.dashboardHeight = $(window).height() - $('.dashBoardHeader').height() - 20;
+        });
+      },700);
+    }
+  },
+  watch: {
+    pageindex: function (newIndex) {
+      this.switchScreen(newIndex);
     }
   }
 }
@@ -69,5 +91,11 @@ export default {
     height: calc(100% - 10px);
     padding: 0px;
   }
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>

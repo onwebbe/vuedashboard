@@ -104,6 +104,9 @@ export default {
       this.initChart();
     },
     initChart() {
+      if (this.chart != null) {
+        this.chart.dispose();
+      }
       let tileHeight = $(this.$el).parent().parent().height();
       let tileTitleHeight = $(this.$el).parent().parent().find('.dashBoardTileTitle').outerHeight();
       let titleTableHeight = $(this.$el).find('.datatable').outerHeight();

@@ -38,14 +38,12 @@ export default {
     console.log(this.$children);
   },
   methods: {
-    registerComponent(templateName){
+    registerComponent(templateName) {
       return import('./' + templateName + '.vue').then((component) => {
         return Vue.component('TileContentComponent', component)
       })
-    }
-  },
-  watch: {
-    dashboardHeight: function (val) {
+    },
+    setDashBoardHeight (val) {
       let self = this;
       if (this.screenConfig != null && this.dashboardTileConfigData != null) {
         let eachRowHeight = Math.floor(this.dashboardHeight / this.screenConfig.totalRows);
@@ -53,8 +51,18 @@ export default {
         this.tileHeight = (elementHeight - 10) + 'px';
       }
       this.$nextTick(function () {
-        self.$refs.tileContent.reRenderTile();
-      })
+        if (self.$refs.tileContent != null) {
+          self.$refs.tileContent.reRenderTile();
+        }
+      });
+    }
+  },
+  watch: {
+    dashboardHeight: function (val) {
+      this.setDashBoardHeight(val);
+    },
+    screenConfig () {
+      this.setDashBoardHeight(this.dashboardHeight);
     }
   }
 }

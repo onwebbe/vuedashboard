@@ -109,6 +109,9 @@ export default {
       this.initChart();
     },
     initChart() {
+      if (this.chart != null) {
+        this.chart.dispose();
+      }
       for (let idx in this.newCodeCoverageData) {
         if (idx != null) {
           let data = this.newCodeCoverageData[idx];

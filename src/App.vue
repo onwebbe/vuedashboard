@@ -4,7 +4,7 @@
       {{this.$root.headText}}
     </div>
     <div class="dashBoardContainer">
-      <DashBoard />
+      <DashBoard :pageindex="pageindex"/>
     </div>
   </div>
 </template>
@@ -15,6 +15,11 @@ export default {
   components: {
     DashBoard
   },
+  data: function () {
+    return {
+      pageindex: 0
+    }
+  },
   created () {
     // let windowHeight = window.outerHeight;
     // document.getElementById('app').style.height = windowHeight + 'px';
@@ -24,6 +29,10 @@ export default {
     $('body').attr('themeStyle', 'fiori');
     // let windowHeight = window.outerHeight;
     // document.getElementById('app').style.height = windowHeight + 'px';
+    let self = this;
+    setTimeout(function (){
+      self.pageindex = 1;
+    }, 5000);
   }
 }
 </script>
