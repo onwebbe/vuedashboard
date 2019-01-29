@@ -3,7 +3,7 @@
     <transition name="fade">
       <div class="dashBoardInner borderColorNormal columns is-multiline"  v-if="isShow">
         <div class="dashBoardTileColumn column" v-bind:class="[columnClassName]" v-bind:key="item" v-for="(item, index) in this.$root.screenConfig.screens[this.pageindex].totalColumns">
-          <DashBoardTile v-bind:key="tileIdx" v-for="(tileItem, tileIdx) in dashBoardTilesConfig[index]" :screenConfig="screenConfig" :dashboardTileConfigData="tileItem" :dashboardHeight="dashboardHeight"></DashBoardTile>
+          <DashBoardTile ref="dashboardtiles" v-bind:key="tileIdx" v-for="(tileItem, tileIdx) in dashBoardTilesConfig[index]" :screenConfig="screenConfig" :dashboardTileConfigData="tileItem" :dashboardHeight="dashboardHeight"></DashBoardTile>
         </div>
       </div>
     </transition>
@@ -47,13 +47,22 @@ export default {
     switchScreen (topageindex) {
       let self = this;
       this.isShow = false;
+      self.dashBoardTilesConfig = self.$root.screens[topageindex].tilesLayout;
+      self.screenConfig = self.$root.screenConfig.screens[topageindex];
       setTimeout(function () {
         self.isShow = true;
-        setTimeout(function () {
-          self.dashBoardTilesConfig = self.$root.screens[self.pageindex].tilesLayout;
-          self.screenConfig = self.$root.screenConfig.screens[self.pageindex];
+        
+        self.$nextTick(function () {
+          // console.log(self.$root.screenConfig.screens[topageindex].totalColumns);
+          // console.log(self.$root.screens[topageindex].tilesLayout);
           self.columnClassName = 'is-' + self.calculateColumnBlockSize();
           self.dashboardHeight = $(window).height() - $('.dashBoardHeader').height() - 20;
+          for (let i = 0; i < self.$refs.dashboardtiles.length; i++) {
+            self.$refs.dashboardtiles[i].reRenderTile();
+          }
+        });
+        setTimeout(function () {
+          
         });
       },700);
     }

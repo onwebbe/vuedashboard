@@ -17,7 +17,8 @@ export default {
   },
   data: function () {
     return {
-      pageindex: 0
+      pageindex: 0,
+      timerID: -1
     }
   },
   created () {
@@ -30,9 +31,18 @@ export default {
     // let windowHeight = window.outerHeight;
     // document.getElementById('app').style.height = windowHeight + 'px';
     let self = this;
-    setTimeout(function (){
-      self.pageindex = 1;
-    }, 5000);
+    let delay = this.$root.screenConfig.slideStayTime;
+    if ( this.timerID >=0 ) {
+      clearInterval(this.timerID);
+    }
+    this.timerID = setInterval(function (){
+      this.totalPages = self.$root.screenConfig.screens.length;
+      if (self.pageindex + 1 >= totalPages) {
+        self.pageindex = 0;
+      } else {
+        self.pageindex ++;
+      }
+    }, delay);
   }
 }
 </script>

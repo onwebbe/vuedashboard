@@ -38,6 +38,10 @@ export default {
     console.log(this.$children);
   },
   methods: {
+    reRenderTile () {
+      console.log("reRenderTile");
+      this.setDashBoardHeight(this.dashboardHeight);
+    },
     registerComponent(templateName) {
       return import('./' + templateName + '.vue').then((component) => {
         return Vue.component('TileContentComponent', component)
