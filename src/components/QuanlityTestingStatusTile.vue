@@ -120,8 +120,12 @@ export default {
       let self = this;
       this.$axios.get('/api/vuedashboard/fetchJenkinsJobSummary').then(response => {
         let jobsData = response.data;
-        self.processJobData(jobsData);
-        self.chart.setOption(self.echartOption);
+        if (jobsData.success === true) {
+          jobsData = jobsData.data;
+          self.processJobData(jobsData);
+          self.chart.setOption(self.echartOption);
+        }
+        
       });
   //     let jobsData = { 'cdp-hana-jdm2':
   //  [ { PASSED: 35, buildNumber: 'latest-2', FAILED: 1 },
