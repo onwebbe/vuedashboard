@@ -81,9 +81,10 @@ export default {
 @import '../../node_modules/bulma';
 .dashboardMain {
   width: calc( 100% - 20px );
-  height: calc( 100% - 20px );
-  max-height: calc( 100% - 20px );
+  height: calc( 100% - 10px );
+  max-height: calc( 100% - 10px );
   padding: 10px;
+  padding-top: 0px;
 
   > div.dashBoardInner {
     position: relative;

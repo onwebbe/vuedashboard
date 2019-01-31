@@ -34,7 +34,7 @@
   .fontColor.infoColor {
     color: rgb(123, 188, 231);
   }
-  .fontColorNormal {
+  .fontColor.fontColorNormal {
     color: white;
   }
   .backgroundColorNormal {
@@ -96,12 +96,12 @@
   .fontColor.infoColor {
     color: rgb(123, 188, 231);
   }
-  .fontColorNormal {
+  .fontColor.fontColorNormal {
     color: #333;
   }
 
   .backgroundColorNormal {
-    background-color: #3F5161;
+    background-color: white;
   }
   .backgroundColorDashBoard {
     background-color: white;
