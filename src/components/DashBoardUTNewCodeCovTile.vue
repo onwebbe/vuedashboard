@@ -1,7 +1,7 @@
 <template>
   <div class="newCodeCovTileContent">
     <div class="todayCoverage" :class="todayCoverageColorClass">
-      Today<span>({{newCodeCoverageData[newCodeCoverageData.length - 1].date}})</span> Coverage: <span style='font-weight: bold;'>75%</span>
+      Today<span></span> Coverage: <span style='font-weight: bold;'>75%</span>
       <div style="display:inline-block; text-align:right;width: 20px; height:20px;text-align: center;font-size: 1.5rem;font-weight: bold;" class="fa fa-thumbs-up" :class="trendArrowClasses"/>
       <!--div style="display:inline-block; width: 20px; height:20px;text-align: center;font-size: 1.5rem;" class="fa fa-angle-down"/-->
     </div>
@@ -41,6 +41,7 @@ export default {
               }
             }
           },
+          width: '10%'
         },
         yAxis: {
           type: 'value',
@@ -61,8 +62,12 @@ export default {
         },
         series: [{
             data: [],
+            type: 'bar',
+            smooth: true,
+            barMaxWidth: '20%'
+        }, {
+            data: [],
             type: 'line',
-            color: 'yellow',
             smooth: true
         }],
         legend: {
@@ -77,22 +82,7 @@ export default {
           bottom: 30
         }
       },
-      newCodeCoverageData: [{
-        date: '2019-01-10',
-        coverage: 75
-      }, {
-        date: '2019-01-11',
-        coverage: 60
-      }, {
-        date: '2019-01-12',
-        coverage: 50
-      }, {
-        date: '2019-01-13',
-        coverage: 55
-      }, {
-        date: '2019-01-14',
-        coverage: 65
-      }]
+      newCodeCoverageData: []
     }
   },
   created() {
@@ -112,12 +102,8 @@ export default {
       if (this.chart != null) {
         this.chart.dispose();
       }
-      for (let idx in this.newCodeCoverageData) {
-        if (idx != null) {
-          let data = this.newCodeCoverageData[idx];
-          this.echartOption.xAxis.data.push(data.date);
-          this.echartOption.series[0].data.push(data.coverage);
-        }
+      if (this.$refs == null || this.$refs.coverageChart == null) {
+        return;
       }
       let tileHeight = $(this.$el).parent().parent().height();
       let tileTitleHeight = $(this.$el).parent().parent().find('.dashBoardTileTitle').outerHeight();
@@ -126,7 +112,31 @@ export default {
         height: (tileHeight - tileTitleHeight - 65) + 'px'
       });
       // 把配置和数据放这里
-      this.chart.setOption(this.echartOption);
+      this.getJobData();
+    },
+    getJobData() {
+      let self = this;
+      this.$axios.get('/api/vuedashboard/getNewUTCodeCoverage').then(response => {
+        let jobsData = response.data;
+        if (jobsData.success === true) {
+          jobsData = jobsData.data;
+          self.processJobData(jobsData);
+          self.chart.setOption(self.echartOption);
+        }
+        
+      });
+    },
+    processJobData(jobsData) {
+      for (let idx in jobsData) {
+        if (idx != null) {
+          let data = jobsData[idx];
+          let dataDate = data.date.substring(0, 10);
+          this.echartOption.xAxis.data.push(dataDate);
+          this.echartOption.series[0].data.push(parseInt(data.codeCoverage.new_coverage));
+          this.echartOption.series[1].data.push(parseInt(data.codeCoverage.coverage));
+        }
+      }
+      console.log(this.echartOption);
     }
   }
 }
