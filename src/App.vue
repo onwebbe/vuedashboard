@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="backgroundColorNormal fontColorNormal">
+  <div id="app" class="backgroundColorNormal fontColor fontColorNormal ">
     <div class="dashBoardHeader">
       {{this.$root.headText}}
     </div>
@@ -28,15 +28,13 @@ export default {
   mounted () {
     $('body').addClass('backgroundColorNormal');
     $('body').attr('themeStyle', 'fiori');
-    // let windowHeight = window.outerHeight;
-    // document.getElementById('app').style.height = windowHeight + 'px';
     let self = this;
     let delay = this.$root.screenConfig.slideStayTime;
     if ( this.timerID >=0 ) {
       clearInterval(this.timerID);
     }
-    this.timerID = setInterval(function (){
-      this.totalPages = self.$root.screenConfig.screens.length;
+    this.timerID = setInterval(function () {
+      var totalPages = self.$root.screenConfig.screens.length;
       if (self.pageindex + 1 >= totalPages) {
         self.pageindex = 0;
       } else {
@@ -62,7 +60,7 @@ body {
   > .dashBoardHeader {
     height: 35px;
     min-height: 35px;
-    line-height: 45px;
+    line-height: 36px;
     font-size: 1.2rem;
     text-align: center;
   }
