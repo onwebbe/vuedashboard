@@ -38,8 +38,12 @@ Vue.prototype.$axios = axios;
 // }
 import DashBoardUTNewCodeCovTile from './components/DashBoardUTNewCodeCovTile';
 import QuanlityTestingStatusTile from './components/QuanlityTestingStatusTile';
+import QuanlityTestingFailStatusTile from './components/QuanlityTestingFailStatusTile';
+
 Vue.component('DashBoardUTNewCodeCovTile', DashBoardUTNewCodeCovTile);
 Vue.component('QuanlityTestingStatusTile', QuanlityTestingStatusTile);
+Vue.component('QuanlityTestingFailStatusTile', QuanlityTestingFailStatusTile);
+
 axios.get('/api/vuedashboard/getDashBoardConfig').then((response) => {
   var responseData = response.data;
   if (responseData.success === true) {
