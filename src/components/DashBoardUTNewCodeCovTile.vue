@@ -64,11 +64,33 @@ export default {
             data: [],
             type: 'bar',
             smooth: true,
-            barMaxWidth: '20%'
+            barMaxWidth: '20%',
+            label: {
+              normal: {
+                show: true,
+                textBorderColor: '#333',
+                textBorderWidth: 2,
+                fontSize: 20,
+                formatter: function (item) {
+                  return 'New:' + item.data;
+                }
+              }
+            }
         }, {
             data: [],
             type: 'line',
-            smooth: true
+            smooth: true,
+            label: {
+              normal: {
+                show: true,
+                textBorderColor: '#333',
+                textBorderWidth: 2,
+                fontSize: 16,
+                formatter: function (item) {
+                  return 'Overall:' + item.data;
+                }
+              }
+            }
         }],
         legend: {
           show: false
