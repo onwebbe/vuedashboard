@@ -91,6 +91,11 @@ $fa-font-path: '../../node_modules/font-awesome/fonts/';
   }
   .dashBoardTileContent {
     padding-top: 5px;
+    height: calc( 100% - 46px );
+
+    > div {
+      height: 100%;
+    }
   }
 }
 </style>

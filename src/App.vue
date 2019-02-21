@@ -33,14 +33,18 @@ export default {
     if ( this.timerID >=0 ) {
       clearInterval(this.timerID);
     }
-    this.timerID = setInterval(function () {
-      var totalPages = self.$root.screenConfig.screens.length;
-      if (self.pageindex + 1 >= totalPages) {
-        self.pageindex = 0;
-      } else {
-        self.pageindex ++;
-      }
-    }, delay);
+    var pagesCount = self.$root.screenConfig.screens.length > self.$root.screenConfig.totalPages ?
+                    self.$root.screenConfig.totalPages : self.$root.screenConfig.screens.length;
+    if (pagesCount > 1) {
+      this.timerID = setInterval(function () {
+        var totalPages = self.$root.screenConfig.screens.length;
+        if (self.pageindex + 1 >= totalPages) {
+          self.pageindex = 0;
+        } else {
+          self.pageindex ++;
+        }
+      }, delay);
+    }
   }
 }
 </script>
