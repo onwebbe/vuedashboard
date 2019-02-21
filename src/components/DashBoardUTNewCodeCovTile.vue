@@ -1,8 +1,9 @@
 <template>
   <div class="newCodeCovTileContent">
     <div class="todayCoverage" :class="todayCoverageColorClass">
-      Today<span></span> Coverage: <span style='font-weight: bold;'>75%</span>
-      <div style="display:inline-block; text-align:right;width: 20px; height:20px;text-align: center;font-size: 1.5rem;font-weight: bold;" class="fa fa-thumbs-up" :class="trendArrowClasses"/>
+      Today<span></span> Coverage: <span style='font-weight: bold;'>{{lastestNewCodeCoverage}}%</span>
+      <div style="display:inline-block; text-align:right;width: 20px; height:20px;text-align: center;font-size: 1.5rem;font-weight: bold;"
+        class="fa fa-thumbs-up" :class="trendArrowClasses" v-if="trendArrowClasses.indexOf('okDarkColor') >= 0"/>
       <!--div style="display:inline-block; width: 20px; height:20px;text-align: center;font-size: 1.5rem;" class="fa fa-angle-down"/-->
     </div>
     <div>
@@ -21,6 +22,7 @@ export default {
   },
   data() {
     return {
+      lastestNewCodeCoverage: 0,
       todayCoverageColorClass: ['okColor', 'backgroundColor'],
       echartThemeing: this.$root.screenConfig.echartTheme,
       trendArrowClasses: ['fontColor', 'okDarkColor'],
@@ -72,7 +74,7 @@ export default {
                 textBorderWidth: 2,
                 fontSize: 20,
                 formatter: function (item) {
-                  return 'New:' + item.data;
+                  return item.data;
                 }
               }
             }
@@ -87,7 +89,7 @@ export default {
                 textBorderWidth: 2,
                 fontSize: 16,
                 formatter: function (item) {
-                  return 'Overall:' + item.data;
+                  return item.data;
                 }
               }
             }
@@ -112,6 +114,8 @@ export default {
   },
   mounted() {
     // this.initChart();
+  },
+  watch: {
   },
   methods: {
     initTile() {
@@ -145,10 +149,10 @@ export default {
           self.processJobData(jobsData);
           self.chart.setOption(self.echartOption);
         }
-        
       });
     },
     processJobData(jobsData) {
+      let lastestNewCodeCoverage = 0;
       for (let idx in jobsData) {
         if (idx != null) {
           let data = jobsData[idx];
@@ -156,9 +160,21 @@ export default {
           this.echartOption.xAxis.data.push(dataDate);
           this.echartOption.series[0].data.push(parseInt(data.codeCoverage.new_coverage));
           this.echartOption.series[1].data.push(parseInt(data.codeCoverage.coverage));
+          lastestNewCodeCoverage = data.codeCoverage.new_coverage;
         }
       }
-      console.log(this.echartOption);
+      this.lastestNewCodeCoverage = parseInt(lastestNewCodeCoverage);
+      if (lastestNewCodeCoverage > 70) {
+        this.todayCoverageColorClass = ['okColor', 'backgroundColor'];
+        this.trendArrowClasses = ['okDarkColor', 'backgroundColor'];
+      } else if (lastestNewCodeCoverage > 55) {
+        this.todayCoverageColorClass = ['infoColor', 'backgroundColor'];
+        this.trendArrowClasses = ['infoColor', 'fontColor'];
+      } else {
+        this.todayCoverageColorClass = ['errorColor', 'backgroundColor'];
+        this.trendArrowClasses = ['errorDarkColor', 'fontColor'];
+      } 
+      // console.log(this.echartOption);
     }
   }
 }

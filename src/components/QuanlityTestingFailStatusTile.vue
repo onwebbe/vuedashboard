@@ -4,7 +4,7 @@
       <div class="tile is-parent" v-for="(jobs, jobName) in riskyJobs" v-bind:key="jobName">
         <article class="tile is-child box" :class="{ 'backgroundColor okColor': jobs.length == 0, 'backgroundColor infoColor': jobs.length > 0 }">
           <p class='tiletitle'>{{jobName}}</p>
-          <p v-if="jobs.length > 0">{{jobs.length}} jobs in risky</p>
+          <p v-if="jobs.length > 0">{{jobs.length}} cases in risk</p>
           <p v-if="jobs.length == 0">Case status is fine</p>
         </article>
       </div>
