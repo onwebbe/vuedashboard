@@ -1,9 +1,9 @@
 <template>
   <div class="dashBoardTile fontColorNormal tileBackGroundColorNormal fullBorderNormal" :style="{height: tileHeight}">
     <div class="dashBoardTileTitle borderColorNormal tileBackGroundColorTitle">
-      <div style="display:inline-block; width: 20px; height:20px;text-align: center;" class="fa fa-angle-double-right fontColor fontColorNormal"/>
+      <!-- <div style="display:inline-block; width: 20px; height:20px;text-align: center;" class="fa fa-angle-double-right fontColor fontColorNormal"/> -->
         <span class="fontColor fontColorNormal">{{dashboardTileConfigData == null? '': dashboardTileConfigData.tileTitle}}</span>
-      <div style="display:inline-block; width: 20px; height:20px;text-align: center;" class="fa fa-angle-double-left fontColor fontColorNormal"/>
+      <!-- <div style="display:inline-block; width: 20px; height:20px;text-align: center;" class="fa fa-angle-double-left fontColor fontColorNormal"/> -->
     </div>
     <div class="dashBoardTileContent">
       <!-- NewCodeCoverageTile ref="tileContent"></NewCodeCoverageTile >
