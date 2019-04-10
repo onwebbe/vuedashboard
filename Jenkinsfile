@@ -1,16 +1,23 @@
-stage('npm-build') {
+pipeline {
     agent {
         docker {
             image 'node:10.15-slim'
+            args '-p 3000:3000'
         }
     }
-    steps {
-        echo "Branch is ${env.BRANCH_NAME}..."
- 
-        withNPM() {
-            echo "Performing npm build..."
-            sh 'npm install'
-            sh 'npm build'
+    environment {
+        CI = 'true' 
+    }
+    stages {
+        stage('Install') {
+            steps {
+                sh 'npm install'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'npm build'
+            }
         }
     }
 }
