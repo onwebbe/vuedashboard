@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "postinstall": "cd node_modules/canvas && node-gyp rebuild",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
@@ -12,7 +11,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "bulma": "^0.7.2",
-    "canvas": "^2.4.1",
+    "canvas": "^2.3.1",
     "config": "^3.0.1",
     "echarts": "^4.2.0-rc.2",
     "font-awesome": "^4.7.0",
