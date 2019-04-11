@@ -16,9 +16,6 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'echo install canvas'
-                sh 'npm install -g node-gyp'
-                sh 'node-gyp rebuild'
                 sh 'echo build'
                 sh 'npm run test:unit'
             }
