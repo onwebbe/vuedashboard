@@ -16,6 +16,8 @@ pipeline {
         }
         stage('Build') {
             steps {
+                sh 'echo postinsall'
+                sh 'npm run postinstall'
                 sh 'echo build'
                 sh 'npm run test:unit'
             }
