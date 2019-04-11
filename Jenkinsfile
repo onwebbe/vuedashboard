@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'vebiven/vue-cli:latest'
+            image 'ebiven/vue-cli:latest'
             args '-p 3000:3000'
         }
     }
