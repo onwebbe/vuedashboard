@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'node:10.15-slim'
+            image 'vuejs/ci:latest'
             args '-p 3000:3000'
         }
     }
