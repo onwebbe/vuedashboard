@@ -13,7 +13,7 @@ pipeline {
             steps {
                 sh 'rm -rf /var/jenkins_home/workspace/VUEDashboard/node_modules'
                 sh 'rm /var/jenkins_home/workspace/VUEDashboard/package-lock.json'
-                sh 'npm cache clear--force'
+                // sh 'npm cache clear--force'
                 sh 'npm install'
             }
         }
