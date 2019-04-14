@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'ebiven/vue-cli:latest'
+            image 'onwebbe/node-curl-python-alpine:latest'
             args '-p 3000:3000'
         }
     }
