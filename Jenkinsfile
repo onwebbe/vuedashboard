@@ -1,8 +1,8 @@
 pipeline {
     agent {
         docker {
-            image 'ebiven/vue-cli:latest'
-            args '-p 3000:3000'
+            image 'onwebbe/node-curl-python-alpine:latest'
+            args '-p 3000:3000 -v /var/jenkins_home/workspace/VUEDashboard/:/working'
         }
     }
     environment {
@@ -11,9 +11,9 @@ pipeline {
     stages {
         stage('Install') {
             steps {
-                sh 'rm -rf /var/jenkins_home/workspace/VUEDashboard/node_modules'
-                sh 'rm /var/jenkins_home/workspace/VUEDashboard/package-lock.json'
-                sh 'npm cache clear--force'
+                sh 'rm -rf node_modules'
+                sh 'rm package-lock.json'
+                // sh 'npm cache clear--force'
                 sh 'npm install'
             }
         }
