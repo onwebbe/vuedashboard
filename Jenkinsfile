@@ -11,10 +11,8 @@ pipeline {
     stages {
         stage('Install') {
             steps {
-                sh 'pwd'
-                sh 'cd /working'
-                sh 'rm -rf /working/node_modules'
-                sh 'rm /working/package-lock.json'
+                sh 'rm -rf node_modules'
+                sh 'rm package-lock.json'
                 // sh 'npm cache clear--force'
                 sh 'npm install'
             }
