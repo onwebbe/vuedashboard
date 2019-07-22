@@ -13,11 +13,12 @@ module.exports = {
     proxy: 'http://localhost:3000'
   },
   configureWebpack: {
+    devtool: 'source-map',
     plugins: [
-        new webpack.ProvidePlugin({
-            jQuery: 'jquery',
-            $: 'jquery'
-        })
+      new webpack.ProvidePlugin({
+        jQuery: 'jquery',
+        $: 'jquery'
+      })
     ]
   }
 }

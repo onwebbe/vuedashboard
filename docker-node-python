@@ -1,0 +1,16 @@
+FROM onwebbe/node-curl-alpine
+ENV LANG C.UTF-8
+MAINTAINER onwenne
+
+RUN apk add --no-cache python && \
+    python -m ensurepip && \
+    rm -r /usr/lib/python*/ensurepip && \
+    pip install --upgrade pip setuptools && \
+    rm -r /root/.cache
+
+RUN npm install -g @vue/cli
+
+ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+VOLUME ["/working","/scripts"]
+WORKDIR /working
+CMD node

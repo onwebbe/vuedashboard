@@ -36,11 +36,13 @@ export default {
             formatter: function (value, index) {
               var axisYear = parseInt(value.substring(0, 4));
               var todayYear = new Date().getFullYear();
+              var returnValue;
               if (axisYear === todayYear) {
-                return value.substring(5)
+                returnValue = value.substring(5)
               } else {
-                return value;
+                returnValue = value;
               }
+              return returnValue;
             }
           },
           width: '10%'
@@ -48,11 +50,13 @@ export default {
         yAxis: {
           type: 'value',
           min: function(value) {
+            var returnValue;
             if (value.min - 10 > 0) {
-              return value.min - 10;
+              returnValue = value.min - 10;
             } else {
-              return 0;
+              returnValue = 0;
             }
+            return returnValue;
           },
           axisLabel: {
             show: true,
@@ -63,36 +67,36 @@ export default {
           interval: 5
         },
         series: [{
-            data: [],
-            type: 'bar',
-            smooth: true,
-            barMaxWidth: '20%',
-            label: {
-              normal: {
-                show: true,
-                textBorderColor: '#333',
-                textBorderWidth: 2,
-                fontSize: 20,
-                formatter: function (item) {
-                  return item.data;
-                }
+          data: [],
+          type: 'bar',
+          smooth: true,
+          barMaxWidth: '20%',
+          label: {
+            normal: {
+              show: true,
+              textBorderColor: '#333',
+              textBorderWidth: 2,
+              fontSize: 20,
+              formatter: function (item) {
+                return item.data;
               }
             }
+          }
         }, {
-            data: [],
-            type: 'line',
-            smooth: true,
-            label: {
-              normal: {
-                show: true,
-                textBorderColor: '#333',
-                textBorderWidth: 2,
-                fontSize: 16,
-                formatter: function (item) {
-                  return item.data;
-                }
+          data: [],
+          type: 'line',
+          smooth: true,
+          label: {
+            normal: {
+              show: true,
+              textBorderColor: '#333',
+              textBorderWidth: 2,
+              fontSize: 16,
+              formatter: function (item) {
+                return item.data;
               }
             }
+          }
         }],
         legend: {
           show: false
@@ -122,6 +126,9 @@ export default {
       this.initChart();
     },
     reRenderTile() {
+      this.echartOption.xAxis.data = [];
+      this.echartOption.series[0].data = [];
+      this.echartOption.series[1].data = [];
       this.initChart();
     },
     initChart() {
@@ -142,7 +149,7 @@ export default {
     },
     getJobData() {
       let self = this;
-      this.$axios.get('/api/vuedashboard/getNewUTCodeCoverage').then(response => {
+      this.$axios.get('/api/vuedashboard/getNewUTCodeCoverage').then( (response) => {
         let jobsData = response.data;
         if (jobsData.success === true) {
           jobsData = jobsData.data;
@@ -173,7 +180,7 @@ export default {
       } else {
         this.todayCoverageColorClass = ['errorColor', 'backgroundColor'];
         this.trendArrowClasses = ['errorDarkColor', 'fontColor'];
-      } 
+      }
       // console.log(this.echartOption);
     }
   }

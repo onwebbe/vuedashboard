@@ -67,15 +67,18 @@
   }
   .backgroundColor.okColor {
     background-color: rgb(97, 201, 97);
-    color: #0d4612;
+    color: white;
+    text-shadow: 1px 1px 1px #0d4612;
   }
   .backgroundColor.errorColor {
     background-color: rgb(235, 152, 103);
-    color: #611129;
+    color: white;
+    text-shadow: 1px 1px 1px #611129;
   }
   .backgroundColor.infoColor {
     background-color: rgb(123, 188, 231);
-    color: #152479;
+    color: white;
+    text-shadow: 1px 1px 1px #152479;
   }
 
   .fontColor.warningColor {

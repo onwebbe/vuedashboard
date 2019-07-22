@@ -3,7 +3,12 @@
     <transition name="fade">
       <div class="dashBoardInner borderColorNormal columns is-multiline"  v-if="isShow">
         <div class="dashBoardTileColumn column" v-bind:class="[columnClassName]" v-bind:key="item" v-for="(item, index) in this.$root.screenConfig.screens[this.pageindex].totalColumns">
-          <DashBoardTile ref="dashboardtiles" v-bind:key="tileIdx" v-for="(tileItem, tileIdx) in dashBoardTilesConfig[index]" :screenConfig="screenConfig" :dashboardTileConfigData="tileItem" :dashboardHeight="dashboardHeight"></DashBoardTile>
+          <DashBoardTile ref="dashboardtiles"
+            v-bind:key="tileIdx"
+            v-for="(tileItem, tileIdx) in dashBoardTilesConfig[index]"
+            :screenConfig="screenConfig"
+            :dashboardTileConfigData="tileItem"
+            :dashboardHeight="dashboardHeight"></DashBoardTile>
         </div>
       </div>
     </transition>
@@ -51,7 +56,6 @@ export default {
       self.screenConfig = self.$root.screenConfig.screens[topageindex];
       setTimeout(function () {
         self.isShow = true;
-        
         self.$nextTick(function () {
           // console.log(self.$root.screenConfig.screens[topageindex].totalColumns);
           // console.log(self.$root.screens[topageindex].tilesLayout);
@@ -61,10 +65,9 @@ export default {
             self.$refs.dashboardtiles[i].reRenderTile();
           }
         });
-        setTimeout(function () {
-          
-        });
-      },700);
+        // setTimeout(function () {
+        // });
+      }, 700);
     }
   },
   watch: {

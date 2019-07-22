@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import { clearInterval } from 'timers';
 
 
 export default {
@@ -57,8 +58,27 @@ export default {
       this.$nextTick(function () {
         if (self.$refs.tileContent != null) {
           self.$refs.tileContent.reRenderTile();
+          self.startRefreshTile();
         }
       });
+    },
+    startRefreshTile () {
+      var self = this;
+      var timeoutTime = this.dashboardTileConfigData.timeout;
+      if (!timeoutTime) {
+        timeoutTime = 60000;
+      }
+      if (timeoutTime === 0) {
+        return;
+      }
+      this.timeoutInteval = setInterval(function () {
+        if (self.$refs.tileContent && self.$refs.tileContent.reRenderTile) {
+          self.$refs.tileContent.reRenderTile();
+        }
+      }, timeoutTime);
+    },
+    stopRefreshTile () {
+      clearInterval(this.timeoutInteval);
     }
   },
   watch: {
