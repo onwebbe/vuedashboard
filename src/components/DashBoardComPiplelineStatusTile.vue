@@ -169,7 +169,7 @@ $fa-font-path: '../../node_modules/font-awesome/fonts/';
   }
   .dataRow {
     margin: 20px 5px;
-    text-align: center;
+    text-align: left;
     .dataRowTitle {
       font-size: 1.1 em;
       font-weight: bold;
