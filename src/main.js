@@ -40,14 +40,17 @@ import DashBoardUTNewCodeCovTile from './components/DashBoardUTNewCodeCovTile';
 import QuanlityTestingStatusTile from './components/QuanlityTestingStatusTile';
 import QuanlityTestingFailStatusTile from './components/QuanlityTestingFailStatusTile';
 import DashBoardComPiplelineStatusTile from './components/DashBoardComPiplelineStatusTile';
+import BurnDownChartTile from './components/BurnDownChartTile';
+
 Vue.component('DashBoardUTNewCodeCovTile', DashBoardUTNewCodeCovTile);
 Vue.component('QuanlityTestingStatusTile', QuanlityTestingStatusTile);
 Vue.component('QuanlityTestingFailStatusTile', QuanlityTestingFailStatusTile);
 Vue.component('DashBoardComPiplelineStatusTile', DashBoardComPiplelineStatusTile);
+Vue.component('BurnDownChartTile', BurnDownChartTile);
 axios.get('/api/vuedashboard/getDashBoardConfig').then((response) => {
   var responseData = response.data;
   if (responseData.success === true) {
-    var configData = responseData.data;
+    var configData = responseData.data.dashboardConfig;
     // configData = {
     //   'headText': 'Title',
     //   'screenConfig': {

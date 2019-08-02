@@ -1,22 +1,13 @@
 <template>
-  <div class="newCodeCovTileContent">
-    <div class="todayCoverage" :class="todayCoverageColorClass">
-      Today<span></span> Coverage: <span style='font-weight: bold;'>{{lastestNewCodeCoverage}}%</span>
-      <div style="display:inline-block; text-align:right;width: 20px; height:20px;text-align: center;font-size: 1.5rem;font-weight: bold;"
-        class="fa fa-thumbs-up" :class="trendArrowClasses" v-if="trendArrowClasses.indexOf('okDarkColor') >= 0"/>
-      <!--div style="display:inline-block; width: 20px; height:20px;text-align: center;font-size: 1.5rem;" class="fa fa-angle-down"/-->
-    </div>
-    <div>
-      <div class="newCodeCoverage" ref="coverageChart">
-      </div>
-    </div>
+  <div class="burnDownChartTile">
+      <div ref="burnDownChart"></div>
   </div>
 </template>
 
 <script>
 import echarts from 'echarts'
 export default {
-  name: 'DashBoardUTNewCodeCovTile',
+  name: 'burnDownChartTile',
   props: {
     params: Object
   },
@@ -29,23 +20,15 @@ export default {
       echartOption: {
         xAxis: {
           type: 'category',
-          data: [],
+          data: [1564645283403, 1564731677526, 1564818077526],
           axisLabel: {
             show: true,
             interval: 0,
             formatter: function (value, index) {
-              var axisYear = parseInt(value.substring(0, 4));
-              var todayYear = new Date().getFullYear();
-              var returnValue;
-              if (axisYear === todayYear) {
-                returnValue = value.substring(5)
-              } else {
-                returnValue = value;
-              }
-              return returnValue;
+              let chartDate = new Date(parseInt(value));
+              return chartDate.format('yyyy-MM-dd');
             }
-          },
-          width: '10%'
+          }
         },
         yAxis: {
           type: 'value',
@@ -61,16 +44,15 @@ export default {
           axisLabel: {
             show: true,
             interval: 0,
-            formatter: '{value}%'
+            formatter: '{value}'
           },
           minInterval: 5,
           interval: 5
         },
         series: [{
-          data: [],
-          type: 'bar',
-          smooth: true,
-          barMaxWidth: '20%',
+          data: [310, 270, 230],
+          type: 'line',
+          smooth: false,
           label: {
             normal: {
               show: true,
@@ -83,7 +65,7 @@ export default {
             }
           }
         }, {
-          data: [],
+          data: [310, 280, 270],
           type: 'line',
           smooth: true,
           label: {
@@ -137,30 +119,35 @@ export default {
       this.initChart();
     },
     reRenderTile() {
-      this.echartOption.xAxis.data = [];
-      this.echartOption.series[0].data = [];
-      this.echartOption.series[1].data = [];
+      // this.echartOption.xAxis.data = [];
+      // this.echartOption.series[0].data = [];
+      // this.echartOption.series[1].data = [];
       this.initChart();
     },
     initChart() {
       if (this.chart != null) {
         this.chart.dispose();
       }
-      if (this.$refs == null || this.$refs.coverageChart == null) {
+      if (this.$refs == null || this.$refs.burnDownChart == null) {
         return;
       }
       let tileHeight = $(this.$el).parent().parent().height();
       let tileTitleHeight = $(this.$el).parent().parent().find('.dashBoardTileTitle').outerHeight();
-      this.chart = echarts.init(this.$refs.coverageChart, this.echartThemeing, {
+      this.chart = echarts.init(this.$refs.burnDownChart, this.echartThemeing, {
         renderer: 'svg',
         height: (tileHeight - tileTitleHeight - 65) + 'px'
       });
+      this.chart.setOption(this.echartOption);
       // 把配置和数据放这里
-      this.getJobData();
+      // this.getJobData();
+    },
+    formatDate(dateMillium) {
+        let chartDate = new Date(dateMillium);
+        return chartDate.format('yyyy-MM-dd');
     },
     getJobData() {
       let self = this;
-      this.$axios.get('/api/vuedashboard/getNewUTCodeCoverage?' + this.getParamsString).then( (response) => {
+      this.$axios.get('/api/vuedashboard/getBurnDownChartWorker?' + this.getParamsString).then( (response) => {
         let jobsData = response.data;
         if (jobsData.success === true) {
           jobsData = jobsData.data;
@@ -170,29 +157,19 @@ export default {
       });
     },
     processJobData(jobsData) {
-      let lastestNewCodeCoverage = 0;
-      for (let idx in jobsData) {
-        if (idx != null) {
-          let data = jobsData[idx];
-          let dataDate = data.date.substring(0, 10);
-          this.echartOption.xAxis.data.push(dataDate);
-          this.echartOption.series[0].data.push(parseInt(data.codeCoverage.new_coverage));
-          this.echartOption.series[1].data.push(parseInt(data.codeCoverage.coverage));
-          lastestNewCodeCoverage = data.codeCoverage.new_coverage;
-        }
-      }
-      this.lastestNewCodeCoverage = parseInt(lastestNewCodeCoverage);
-      if (lastestNewCodeCoverage > 70) {
-        this.todayCoverageColorClass = ['okColor', 'backgroundColor'];
-        this.trendArrowClasses = ['okDarkColor', 'backgroundColor'];
-      } else if (lastestNewCodeCoverage > 55) {
-        this.todayCoverageColorClass = ['infoColor', 'backgroundColor'];
-        this.trendArrowClasses = ['infoColor', 'fontColor'];
-      } else {
-        this.todayCoverageColorClass = ['errorColor', 'backgroundColor'];
-        this.trendArrowClasses = ['errorDarkColor', 'fontColor'];
-      }
-      // console.log(this.echartOption);
+      let xAxis = this.echartOption.xAxis;
+      let yAxis = this.echartOption.yAxis;
+      let series1 = yAxis.series[0];
+      let series2 = yAxis.series[1];
+
+      xAxis.data = [];
+      series1.data = [];
+      series1.data = [];
+      jobsData.map((value, key, arr) => {
+        xAxis.data.push(value.date);
+        series1.data.push(value.estimated);
+        series2.data.push(value.logged);
+      })
     }
   }
 }
@@ -204,15 +181,8 @@ export default {
 @import '../../node_modules/bulma';
 $fa-font-path: '../../node_modules/font-awesome/fonts/';
 @import '../../node_modules/font-awesome/scss/font-awesome';
-.todayCoverage {
-  font-size: 1.2rem;
-  text-align: center;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  color: white;
-  opacity: 0.8;
-}
-.newCodeCoverage {
-  margin-top: 5px;
+.burnDownChartTile {
+  height: 100%;
+  width: 100%;
 }
 </style>

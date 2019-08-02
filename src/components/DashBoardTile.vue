@@ -9,7 +9,7 @@
       <!-- NewCodeCoverageTile ref="tileContent"></NewCodeCoverageTile >
       <DashBoardUTNewCodeCovTile ref="tileContent" v-if="allTiles.DashBoardUTNewCodeCovTile"></DashBoardUTNewCodeCovTile>
       <QuanlityTestingStatusTile ref="tileContent" v-if="allTiles.QuanlityTestingStatusTile"></QuanlityTestingStatusTile  -->
-      <component ref="tileContent" :is="this.dashboardTileConfigData.tileName"/>
+      <component ref="tileContent" :is="this.dashboardTileConfigData.tileName" :params="dashboardTileConfigData.params"/>
     </div>
   </div>
 </template>
@@ -32,13 +32,19 @@ export default {
   },
   data() {
     return {
-      tileHeight: '100px'
+      tileHeight: '100px',
+      params: {}
     }
   },
   created () {
     console.log(this.$children);
   },
   methods: {
+    beforeDestroy() {
+      if (this.timeoutInteval) {
+        clearInterval(this.timeoutInteval);
+      }
+    },
     reRenderTile () {
       console.log("reRenderTile");
       this.setDashBoardHeight(this.dashboardHeight);
