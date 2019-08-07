@@ -26,7 +26,7 @@ export default {
             interval: 0,
             formatter: function (value, index) {
               let chartDate = new Date(parseInt(value));
-              return chartDate.format('yyyy-MM-dd');
+              return chartDate.format('MM-dd');
             }
           }
         },
@@ -60,14 +60,14 @@ export default {
               textBorderWidth: 2,
               fontSize: 20,
               formatter: function (item) {
-                return item.data;
+                return Math.round(parseInt(item.data) / 3600);
               }
             }
           }
         }, {
           data: [310, 280, 270],
           type: 'line',
-          smooth: true,
+          smooth: false,
           label: {
             normal: {
               show: true,
@@ -75,7 +75,7 @@ export default {
               textBorderWidth: 2,
               fontSize: 16,
               formatter: function (item) {
-                return item.data;
+                return Math.round(parseInt(item.data) / 3600);
               }
             }
           }
@@ -137,9 +137,9 @@ export default {
         renderer: 'svg',
         height: (tileHeight - tileTitleHeight - 65) + 'px'
       });
-      this.chart.setOption(this.echartOption);
+      // this.chart.setOption(this.echartOption);
       // 把配置和数据放这里
-      // this.getJobData();
+      this.getJobData();
     },
     formatDate(dateMillium) {
         let chartDate = new Date(dateMillium);
@@ -158,17 +158,17 @@ export default {
     },
     processJobData(jobsData) {
       let xAxis = this.echartOption.xAxis;
-      let yAxis = this.echartOption.yAxis;
-      let series1 = yAxis.series[0];
-      let series2 = yAxis.series[1];
+      let series = this.echartOption.series;
+      let series1 = series[0];
+      let series2 = series[1];
 
       xAxis.data = [];
       series1.data = [];
-      series1.data = [];
+      series2.data = [];
       jobsData.map((value, key, arr) => {
         xAxis.data.push(value.date);
-        series1.data.push(value.estimated);
-        series2.data.push(value.logged);
+        series1.data.push(value.bestrun);
+        series2.data.push(value.estimated - value.logged);
       })
     }
   }
