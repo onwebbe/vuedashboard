@@ -168,7 +168,7 @@ export default {
       jobsData.map((value, key, arr) => {
         xAxis.data.push(value.date);
         series1.data.push(value.bestrun);
-        if (value.estimated != -1 && value.logged != -1) {
+        if (value.estimated >= 0 && value.logged >= 0 ) {
           series2.data.push(value.estimated - value.logged);
         }
       })
