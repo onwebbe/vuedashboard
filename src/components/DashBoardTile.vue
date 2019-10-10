@@ -1,5 +1,5 @@
 <template>
-  <div class="dashBoardTile fontColorNormal tileBackGroundColorNormal fullBorderNormal" :style="{height: tileHeight}">
+  <div class="dashBoardTile fontColorNormal tileBackGroundColorNormal fullBorderNormal" :style="tileStyle">
     <div class="dashBoardTileTitle borderColorNormal tileBackGroundColorTitle">
       <!-- <div style="display:inline-block; width: 20px; height:20px;text-align: center;" class="fa fa-angle-double-right fontColor fontColorNormal"/> -->
         <span class="fontColor fontColorNormal">{{dashboardTileConfigData == null? '': dashboardTileConfigData.tileTitle}}</span>
@@ -33,6 +33,7 @@ export default {
   data() {
     return {
       tileHeight: '100px',
+      tileWidth: null,
       params: {}
     }
   },
@@ -60,6 +61,15 @@ export default {
         let eachRowHeight = Math.floor(this.dashboardHeight / this.screenConfig.totalRows);
         let elementHeight = eachRowHeight * this.dashboardTileConfigData.rowSpan;
         this.tileHeight = (elementHeight - 10) + 'px';
+
+        
+        let colspan = 1;
+        if (this.dashboardTileConfigData.colSpan) {
+          colspan = this.dashboardTileConfigData.colSpan;
+        }
+        if (colspan > 1) {
+          this.tileWidth = ($(this.$el).width() * 2 + 10) + 'px';
+        }
       }
       this.$nextTick(function () {
         if (self.$refs.tileContent != null) {
@@ -93,6 +103,17 @@ export default {
     },
     screenConfig () {
       this.setDashBoardHeight(this.dashboardHeight);
+    }
+  },
+  computed: {
+    tileStyle() {
+      let style = {
+        height: this.tileHeight
+      };
+      if (this.tileWidth) {
+        style.width = this.tileWidth;
+      }
+      return style;
     }
   }
 }
