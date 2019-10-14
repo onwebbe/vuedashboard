@@ -80,20 +80,21 @@ export default {
                 }
             })
         }
-        this.initAnimation(self.customerIssueList.length,this.$refs.tileInner.offsetHeight)
+        this.$nextTick( () => {
+            this.initAnimation(self.customerIssueList.length,this.$refs.tileInner.offsetHeight);
+        });
       });
     },
     initAnimation(listLength,heightDef){ 
-        var tempHeight=heightDef;
         let animation={
             0:{
                 transform: `translateY(0)`
             },
             30:{
-                transform: `translateY(-${listLength*105-heightDef}px)`
+                transform: `translateY(-${listLength*104-heightDef+10}px)`
             },
             50:{
-                transform: `translateY(-${listLength*105-heightDef}px)`
+                transform: `translateY(-${listLength*104-heightDef+10}px)`
             },
             80:{
                 transform: `translateY(0)`
@@ -103,7 +104,7 @@ export default {
             name: 'move',
             animation,
             presets: {
-                duration: (listLength*99-heightDef+80)*50,
+                duration: (listLength*104-heightDef+10)*50,
                 easing: 'linear',
                 iterations:'infinite'
             }
@@ -171,6 +172,9 @@ export default {
 $fa-font-path: '../../node_modules/font-awesome/fonts/';
 @import '../../node_modules/font-awesome/scss/font-awesome';
 
+.ticketList{
+    position: relative;
+}
 .ticketItem{
     background-color:#fff;
     box-shadow:0px 0px 3px #cbcbcb;
@@ -218,7 +222,7 @@ $fa-font-path: '../../node_modules/font-awesome/fonts/';
 
 .p4::before {
     content: "4";
-    position: fixed;
+    position: absolute;
     right: 20px;
     font-size: 120px;
     font-weight: bold;
@@ -232,7 +236,7 @@ $fa-font-path: '../../node_modules/font-awesome/fonts/';
 }
 .p3::before {
     content: "3";
-    position: fixed;
+    position: absolute;
     right: 20px;
     font-size: 120px;
     font-weight: bold;
@@ -246,7 +250,7 @@ $fa-font-path: '../../node_modules/font-awesome/fonts/';
 }
 .p2::before {
     content: "2";
-    position: fixed;
+    position: absolute;
     right: 20px;
     font-size: 120px;
     font-weight: bold;
@@ -260,7 +264,7 @@ $fa-font-path: '../../node_modules/font-awesome/fonts/';
 }
 .p1::before {
     content: "1";
-    position: fixed;
+    position: absolute;
     right: 20px;
     font-size: 120px;
     font-weight: bold;
