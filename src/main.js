@@ -41,12 +41,17 @@ import QuanlityTestingStatusTile from './components/QuanlityTestingStatusTile';
 import QuanlityTestingFailStatusTile from './components/QuanlityTestingFailStatusTile';
 import DashBoardComPiplelineStatusTile from './components/DashBoardComPiplelineStatusTile';
 import BurnDownChartTile from './components/BurnDownChartTile';
+import JiraCustomerIssueListTile from './components/JiraCustomerIssueListTile';
+import JiraCustomerIssueChartTile from './components/JiraCustomerIssueChartTile';
 
 Vue.component('DashBoardUTNewCodeCovTile', DashBoardUTNewCodeCovTile);
 Vue.component('QuanlityTestingStatusTile', QuanlityTestingStatusTile);
 Vue.component('QuanlityTestingFailStatusTile', QuanlityTestingFailStatusTile);
 Vue.component('DashBoardComPiplelineStatusTile', DashBoardComPiplelineStatusTile);
 Vue.component('BurnDownChartTile', BurnDownChartTile);
+Vue.component('JiraCustomerIssueListTile',JiraCustomerIssueListTile);
+Vue.component('JiraCustomerIssueChartTile',JiraCustomerIssueChartTile)
+
 axios.get('/api/vuedashboard/getDashBoardConfig').then((response) => {
   var responseData = response.data;
   if (responseData.success === true) {
