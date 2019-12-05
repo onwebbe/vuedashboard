@@ -8,7 +8,7 @@
                     <div><span style='font-weight:bold'>{{item.key}}</span><span style='font-size:15px;margin-left:10px'>Created {{timeFormat(item.createTime)}}</span></div>
                     <div class='textEllipsis itemTitle'>{{item.title}}</div>
                 </div>
-                <div class='itemBottom'>{{item.priorityLabel}}</div>
+                <div class='itemBottom'>{{item.priorityLabel}} · Assigned to {{item.assignee}}</div>
             </div>
         </div>
     </div>
@@ -65,6 +65,7 @@ export default {
                     priorityLabel: item.fields.priority.name,
                     priorityIcon: item.fields.priority.iconUrl,
                     key: item.key,
+                    assignee:item.fields.assignee.displayName,
                     priorityIndex: priorityIndexTemp,
                     createTime: new Date(item.fields.created)
                 });
