@@ -9,7 +9,7 @@
     "test:unit": "vue-cli-service --inspect-brk test:unit"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "bulma": "^0.7.2",
     "config": "^3.0.1",
     "create-keyframe-animation": "^0.1.0",
